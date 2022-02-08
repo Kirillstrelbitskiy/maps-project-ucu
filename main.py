@@ -1,10 +1,15 @@
+"""
+Map builder is a Python module that allows building a map with films locations \
+that were parsed from the given file.
+"""
+
 import time
 import doctest
 import argparse
+from functools import cmp_to_key
 import folium
 from geopy.geocoders import Nominatim
 from geopy import distance
-from functools import cmp_to_key
 
 geolocator = Nominatim(user_agent="geomap-app")
 
@@ -143,29 +148,29 @@ def build_map(geo, locations):
     Builds map and save it to map.html.
     """
 
-    mp = folium.Map(location=geo, zoom_start=7)
+    mp_built = folium.Map(location=geo, zoom_start=7)
 
     for film in locations:
         folium.Marker(
             [film[2][0], film[2][1]], popup=film[0]
-        ).add_to(mp)
+        ).add_to(mp_built)
 
     folium.Marker(
         [geo[0], geo[1]],
         popup="Given spot",
         icon=folium.Icon(color="red")
-    ).add_to(mp)
+    ).add_to(mp_built)
 
     if locations:
         farest_dist = (locations[-1][3] + 1) * 1000
 
         folium.Circle(location=[geo[0], geo[1]],
                       radius=farest_dist, weight=1,
-                      fill_color='#3186cc').add_to(mp)
+                      fill_color='#3186cc').add_to(mp_built)
 
-    folium.LatLngPopup().add_to(mp)
+    folium.LatLngPopup().add_to(mp_built)
 
-    mp.save("map.html")
+    mp_built.save("map.html")
 
 
 def read_input():

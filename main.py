@@ -218,6 +218,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# python main.py 2016 43.422037 -80.525161 locations_simple.list
-
 doctest.testmod()
